@@ -1,102 +1,100 @@
-# importing only those functions 
-# which are needed 
-
 from headers import *
-canvas_width = 700
-canvas_height =500
 
+fields = ('Date','Quantity')
+def monthly_payment(entries, passed_value):
+   # period rate:
+   # principal loan:
+   print(passed_value)
+   date = str(entries['Date'].get())
+   quantity = float(entries['Quantity'].get())
+   database(date, quantity, passed_value)
+   # return loan
 
-# creating tkinter window 
-root =tk.Tk() 
-menu = Menu(root) 
-root.title("Import Export")
-root.config(menu=menu) 
-filemenu = Menu(menu) 
-canvas = Canvas(root, 
-           width=canvas_width, 
-           height=canvas_height)
+def makeform(root, fields):
+   entries = {}
+   for field in fields:
+      row = Frame(root)
+      lab = Label(row, width=22, text=field+": ", anchor='w')
+      ent = Entry(row)
+      # ent.insert(0,"0")
+      row.pack(side = TOP, fill = X, padx = 5 , pady = 5)
+      lab.pack(side = LEFT)
+      ent.pack(side = RIGHT, expand = YES, fill = X)
+      entries[field] = ent
+   return entries
 
-def show_entry_fields(e1,e2):
-    print("First Name: %s\nLast Name: %s" % (e1.get(), e2.get()))
-
-
-def add_one():
-	master = tk.Tk()
-	tk.Label(master, 
-	         text="First Name").grid(row=0)
-	tk.Label(master, 
-	         text="Last Name").grid(row=1)
-
-	e1 = tk.Entry(master)
-	e2 = tk.Entry(master)
-
-	e1.grid(row=0, column=1)
-	e2.grid(row=1, column=1)
-
-	tk.Button(master, 
-	          text='Quit', 
-	          command=master.quit).grid(row=3, 
-	                                    column=0, 
-	                                    sticky=tk.W, 
-	                                    pady=4)
-	tk.Button(master, 
-	          text='Show', command=show_entry_fields(e1,e2)).grid(row=3, 
-	                                                       column=1, 
-	                                                       sticky=tk.W, 
-	                                                       pady=4)
-
-	tk.mainloop()
-menu.add_cascade(label='File', menu=filemenu) 
-
-submenu_imp=Menu(filemenu)
-submenu_imp.add_command(label="Rice")
-submenu_imp.add_command(label="something")
-submenu_imp.add_separator()
-
-filemenu.add_cascade(label='Import', menu=submenu_imp, underline=0) 
-
-submenu_exp=Menu(filemenu)
-submenu_exp.add_command(label="Alaichi")
-submenu_exp.add_separator()
-
-filemenu.add_cascade(label='Export', menu=submenu_exp, underline=0) 
-filemenu.add_separator() 
-filemenu.add_command(label='Exit', command=root.destroy) 
-helpmenu = Menu(menu) 
-menu.add_cascade(label='Help', menu=helpmenu) 
-helpmenu.add_command(label='About') 
-
-toolbar=Frame(root) 
-frame = tk.Frame(root)
-frame.pack(fill='both', expand=False)
-
-# Creating a photoimage object to use image 
-photo = PhotoImage(file = "add.png") 
-# Resizing image to fit on button 
-photoimage1 = photo.subsample(6,6) 
-# here, image option is used to set image on button compound option is used to align image on LEFT side of button 
-#Button(root,text = 'Add Data', image = photoimage1, compound = LEFT).pack(side =LEFT) 
-button = tk.Button(toolbar,image = photoimage1, compound = LEFT,command = add_one)
-button.pack(side=tk.LEFT)
-# Creating a photoimage object to use image 
-photo = PhotoImage(file = r"scatter.png") 
-# Resizing image to fit on button
-photoimage2 = photo.subsample(12,12) 
-# here, image option is used to set image on button compound option is used to align image on LEFT side of button 
-button=tk.Button(toolbar, image = photoimage2, compound = LEFT)
-button.pack(side=tk.LEFT)
-# Creating a photoimage object to use image 
-photo = PhotoImage(file = r"line.png") 
-# Resizing image to fit on button
-photoimage3 = photo.subsample(12,12) 
-# here, image option is used to set image on button compound option is used to align image on LEFT side of button 
-button=tk.Button(toolbar, image = photoimage3, compound = LEFT)
-button.pack(side=tk.LEFT) 
-toolbar.pack(side=TOP, fill=X)
+def showimg(passed_value):
+	# print(passed_value)
+	root = Tk()
+	ents = makeform(root, fields)
+	root.bind('<Return>', (lambda event, e = ents: fetch(e)))
+	b1 = Button(root, text = 'Final Balance',
+	  command=(lambda e = ents: monthly_payment(e, passed_value)))
+	b1.pack(side = LEFT, padx = 5, pady = 5)
+	b3 = Button(root, text = 'Quit', command = root.destroy)
+	b3.pack(side = LEFT, padx = 5, pady = 5)
+	root.mainloop()
 
 
 
+def menu_show(main_select):
+
+	global main_pass
+	main_pass = main_select
+	toolbar=Frame(screen) 
+	frame = Frame(screen)
+	frame.pack(fill='both', expand=False)
+	# print(main_select)
+	# x = '{}{}'.format(main_select,1)
+	button = Button(toolbar,text="Add New", compound = LEFT, command = partial(showimg,main_pass))
+	button.pack(side=LEFT)
+	
+	button=Button(toolbar, text="Scatter Graph", compound = LEFT)
+	button.pack(side=LEFT)
+
+	button=Button(toolbar, text="Line Graph", compound = LEFT)
+	button.pack(side=LEFT) 
+	toolbar.pack(side=TOP, fill=X)
+	canvas.pack()
 
 
-canvas.pack()
-root.mainloop() 
+
+	
+
+
+def main_screen():
+	global screen
+	global canvas
+	# global main_select
+	screen = Tk()
+	screen.title("xyz")
+	screen.geometry("450x400")
+	menu = Menu(screen)
+	canvas = Canvas(screen, 
+           width=450, 
+           height=400)
+	screen.config(menu=menu) 
+	filemenu = Menu(menu) 
+	menu.add_cascade(label='File', menu=filemenu) 
+
+	submenu_imp=Menu(filemenu)
+	submenu_imp.add_command(label="Rice", command = partial(menu_show,1))
+	submenu_imp.add_command(label="something", command = partial(menu_show,2))
+	submenu_imp.add_separator()
+
+	filemenu.add_cascade(label='Import', menu=submenu_imp, underline=0) 
+
+	submenu_exp=Menu(filemenu)
+	submenu_exp.add_command(label="Alaichi")
+	submenu_exp.add_separator()
+
+	filemenu.add_cascade(label='Export', menu=submenu_exp, underline=0) 
+	filemenu.add_separator() 
+	filemenu.add_command(label='Exit', command=screen.destroy) 
+	helpmenu = Menu(menu) 
+	menu.add_cascade(label='Help', menu=helpmenu) 
+	helpmenu.add_command(label='About')
+
+	screen.mainloop()
+
+main_screen()

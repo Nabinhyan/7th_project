@@ -13,7 +13,6 @@ import sys
 import pandas as pd
 from pandas import datetime
 import matplotlib.pyplot as plt
+
 from tkinter import simpledialog
-from sql import *
-from functools import partial
 #from statsmodels.graphics.tsaplots import plot_acf

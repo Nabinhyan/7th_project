@@ -6,14 +6,14 @@ Created on Tue Feb  4 12:50:04 2020
 @author: redeye
 """
 from tkinter import * 
-from tkinter.ttk import *
-from tkinter import messagebox
-import tkinter as tk
 import sys
+import numpy as np
 import pandas as pd
 from pandas import datetime
 import matplotlib.pyplot as plt
-from tkinter import simpledialog
 from sql import *
+from statsmodels.tsa.stattools import adfuller
+from statsmodels.tsa.arima_model import ARIMA
+from model_call import *
 from functools import partial
 #from statsmodels.graphics.tsaplots import plot_acf

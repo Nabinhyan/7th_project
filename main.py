@@ -7,7 +7,7 @@ def database_saving(entries, called_item):
 def makeform(root, fields, called_item):
    entries = {}
    root.title("Add New Data of "+called_item)
-
+   root.resizable(0,0)
    for field in fields:
       row = Frame(root)
       lab = Label(row, width=7, text=field+": ", anchor='w')
@@ -23,14 +23,13 @@ def adding_popup(called_item):
 	# print(passed_value)
 
 	root = Tk()
-
 	ents = makeform(root, fields, called_item)
 	root.bind('<Return>', (lambda event, e = ents: fetch(e)))
 	b1 = Button(root, text = 'Add Data',
 	  command=(lambda e = ents: database_saving(e, called_item)))
 	b1.pack(side = LEFT, padx = 5, pady = 5)
 	b3 = Button(root, text = 'Cancel Addition', command = root.destroy)
-	b3.pack(side = RIGHT, padx = 5, pady = 5)
+	b3.pack(side=RIGHT, padx=5, pady=5)
 	root.mainloop()
 
 
@@ -39,11 +38,15 @@ def adding_popup(called_item):
 
 def calling_process(passed_value, called_item):
     global model_status
-
+    print(passed_value)
     if(passed_value == "Add Data"):
         adding_popup(called_item)
+    elif(passed_value == "Reload Model"):
+        model_status = model_calll(screen, called_item, model_status, passed_value)
+        print(model_status)
     else:
-        model_status = model_calll(screen, model_status,called_item, passed_value)
+        model_status = model_calll(screen, called_item, model_status, passed_value)
+        print(model_status)
         return model_status
 #    elif(passed_value == "Line Graph"):
 #        model_status = model_calll(screen, model_status,called_item, "Line Graph")
@@ -56,11 +59,11 @@ def design_menu(menu_status, called_item):
 #            btn.destroy()
 ##        return menu_status
 
-    button_title = ['Add Data', 'Scatter Graph', 'Line Graph']
+    button_title = ['Add Data','Scatter Graph', 'Line Graph','Reload Model']
     for button_title_content in range(len(button_title)):
 #        padding_value = padding_value + 90
-        btn = Button(command =partial(calling_process, button_title[button_title_content], called_item), height=0, width = 12, relief=RIDGE, text=button_title[button_title_content], bd = 2)
-        btn.grid(row=0, column=button_title_content, padx = 2)
+        btn = Button(command =partial(calling_process, button_title[button_title_content], called_item), height=0, width = 9, relief=RIDGE, text=button_title[button_title_content], bd = 1)
+        btn.grid(row=0, column=button_title_content, padx = 1)
         buttons.append(btn)
     
     menu_status = 1
@@ -74,7 +77,7 @@ menu_status2 = 0
 model_status = 0
 screen = Tk()
 screen.title("xyz")
-screen.geometry("420x360")
+screen.geometry("460x400")
 menu = Menu(screen)
 screen.config(menu=menu) 
 filemenu = Menu(menu) 

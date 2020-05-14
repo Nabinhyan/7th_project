@@ -54,37 +54,35 @@ def model_calll(window, model_status, called_item, graph_type):
     
     
     if(model_status == 0):
+        # def read_data():
+        #reading data
         def parser(x):
             return datetime.strptime(x, '%Y-%m')
         data = pd.read_csv(called_csv, index_col=0,parse_dates=[0], date_parser=parser)
         training_data = data[:round(len(data)*0.85)]
         test_data = data[round(len(data)*0.85):]
         len_training = len(training_data)
+        
+        
+        #model
         training_data_logscale = np.log(training_data)
         movingavg = training_data_logscale.rolling(window=12).mean()
         movingstd = training_data_logscale.rolling(window=12).std()
         datasetlogscalemovingavg = training_data_logscale - movingavg
         datasetlogscalemovingavg.dropna(inplace=True)
-        def test_stationarity(timeseries):
-            movingavg = timeseries.rolling(window=12).mean()
-            movingstd = timeseries.rolling(window=12).std()
-            print('Result of Dickey-Fuller Test:')
-            dftest = adfuller(training_data['Quantity'], autolag='AIC')
-            dfoutput = pd.Series(dftest[0:4], index=['Test Statistic', 'p-value', '#Lags Used', 'Number of Observations Used'])
-        exp_decay_wt_avg = training_data_logscale.ewm(
-            halflife=12, min_periods=0, adjust=True).mean()
+        
+        exp_decay_wt_avg = training_data_logscale.ewm(halflife=12, min_periods=0, adjust=True).mean()
         data_logscale_minus_moving_exp_decay_avg = training_data_logscale - exp_decay_wt_avg
         datasetlogdiffshifting = training_data_logscale - training_data_logscale.shift()
         datasetlogdiffshifting.dropna(inplace=True)
-        model = ARIMA(training_data_logscale, order=(21, 1, 4))
+        model = ARIMA(training_data_logscale, order=(2,1,4))
         results_ar = model.fit(disp=-1)
         rss = np.log(
             sum((results_ar.fittedvalues-datasetlogdiffshifting["Quantity"])**2))
         print('RSS: %.4f' % rss)
-        predic_arima_diff = pd.Series(results_ar.fittedvalues, copy=False)
-        predic_arima_diff_cumsum = predic_arima_diff.cumsum()
-        predic_arima_log = pd.Series(training_data_logscale['Quantity'], index=training_data_logscale.index)
-        predic_arima_log = predic_arima_log.add(predic_arima_diff_cumsum, fill_value=0)
+        
+
+        #making prediction
         pred = results_ar.forecast(steps=60)[0]
         y = pred.tolist()
         s = pd.Series(y, copy=False)

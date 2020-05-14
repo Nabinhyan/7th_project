@@ -14,6 +14,6 @@ import matplotlib.pyplot as plt
 from sql import *
 from statsmodels.tsa.stattools import adfuller
 from statsmodels.tsa.arima_model import ARIMA
-from model_call import *
+from model_call_1 import *
 from functools import partial
 #from statsmodels.graphics.tsaplots import plot_acf

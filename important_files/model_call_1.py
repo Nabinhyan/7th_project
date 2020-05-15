@@ -38,7 +38,7 @@ def model_calll(window, called_item, model_status, passed_value):
 
     def parser(x):
         return datetime.strptime(x, '%Y-%m')
-    data = pd.read_csv("./dataset/"+called_csv, index_col=0,
+    data = pd.read_csv("../dataset/"+called_csv, index_col=0,
                        parse_dates=[0], date_parser=parser)
     training_data = data[:round(len(data)*0.85)]
     test_data = data[round(len(data)*0.85):]
@@ -48,7 +48,7 @@ def model_calll(window, called_item, model_status, passed_value):
 
 
     def graph_print(called_status, graph_to_print, training_data, test_data, len_training):
-        results_ar = ARIMAResults.load("./trained_model/"+called_item+".pkl")
+        results_ar = ARIMAResults.load("../trained_model/"+called_item+".pkl")
         global original_data_plot, predicted_data
         if called_status == 0:
 
@@ -117,7 +117,7 @@ def model_calll(window, called_item, model_status, passed_value):
         rss = np.log(
             sum((results_ar.fittedvalues-datasetlogdiffshifting["Quantity"])**2))
         print('RSS: %.4f' % rss)
-        results_ar.save("./trained_model/"+called_item+".pkl")
+        results_ar.save("../trained_model/"+called_item+".pkl")
         model_status = graph_print(calling_status, graph_type, training_data, test_data, len_training)
         return model_status
     else:

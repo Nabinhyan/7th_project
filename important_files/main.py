@@ -36,8 +36,10 @@ def adding_popup(called_item):
 
 
 
-def calling_process(passed_value, called_item):
-    global model_status
+def calling_process(passed_value, called_item, model_status):
+    
+#    model_staus = menu_status
+    print(model_status)
     print(passed_value)
     if(passed_value == "Add Data"):
         adding_popup(called_item)
@@ -45,7 +47,8 @@ def calling_process(passed_value, called_item):
         model_status = model_calll(screen, called_item, model_status, passed_value)
         print(model_status)
     else:
-        model_status = model_calll(screen, called_item, model_status, passed_value)
+        model_status = model_calll(screen,
+                               called_item, model_status, passed_value)
         print(model_status)
         return model_status
 #    elif(passed_value == "Line Graph"):
@@ -62,11 +65,11 @@ def design_menu(menu_status, called_item):
     button_title = ['Add Data','Scatter Graph', 'Line Graph','Reload Model']
     for button_title_content in range(len(button_title)):
 #        padding_value = padding_value + 90
-        btn = Button(command =partial(calling_process, button_title[button_title_content], called_item), height=0, width = 9, relief=RIDGE, text=button_title[button_title_content], bd = 1)
+        btn = Button(command =partial(calling_process, button_title[button_title_content], called_item, menu_status), height=0, width = 9, relief=RIDGE, text=button_title[button_title_content], bd = 1)
         btn.grid(row=0, column=button_title_content, padx = 1)
         buttons.append(btn)
-    
-    menu_status = 1
+    print(menu_status)
+    # menu_status = 1
 #    return menu_status
 
 from headers import *
@@ -76,16 +79,16 @@ menu_status1 = 0
 menu_status2 = 0
 model_status = 0
 screen = Tk()
-screen.title("xyz")
+screen.title("Import & Export of Agricultural Product")
 screen.geometry("460x400")
 menu = Menu(screen)
 screen.config(menu=menu) 
 filemenu = Menu(menu) 
 menu.add_cascade(label='File', menu=filemenu) 
 submenu_imp=Menu(filemenu)
-submenu_imp.add_command(label="Rice", command = partial(design_menu, menu_status1,"Rice"))
-submenu_imp.add_command(label="Potato", command = partial(design_menu, menu_status2,"Potato"))
-submenu_imp.add_command(label="Apple", command = partial(design_menu, menu_status2,"Apple"))
+submenu_imp.add_command(label="Rice", command = partial(design_menu, 0,"Rice"))
+submenu_imp.add_command(label="Potato", command = partial(design_menu, 0,"Potato"))
+submenu_imp.add_command(label="Apple", command = partial(design_menu, 0,"Apple"))
 submenu_imp.add_separator()
 filemenu.add_cascade(label='Import', menu=submenu_imp, underline=0) 
 submenu_exp=Menu(filemenu)

@@ -6,6 +6,8 @@ Created on Tue Feb  4 12:50:04 2020
 @author: redeye
 """
 from tkinter import * 
+# from tkinter import font
+import tkinter.font as tkFont
 import sys
 import numpy as np
 import pandas as pd

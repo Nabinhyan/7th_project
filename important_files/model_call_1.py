@@ -32,6 +32,9 @@ def model_calll(window, called_item, model_status, passed_value):
     elif called_item == "Apple":
         called_csv = "apple.csv"
         title_print_first_word = "Import"
+        p = 7
+        d = 1
+        q = 1
     calling_status = model_status
     graph_type = passed_value
 #    print(called_item, model_status, passed_value, graph_type)

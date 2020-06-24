@@ -54,31 +54,61 @@ def calling_process(passed_value, called_item, model_status):
 #    elif(passed_value == "Line Graph"):
 #        model_status = model_calll(screen, model_status,called_item, "Line Graph")
 #        return model_status
-def design_menu(menu_status, called_item):
+def design_menu(note_status, menu_status, called_item,welcome_note):
     global screen
     print(called_item)
-#    if(menu_status == 1):
-#        for btn in buttons:
-#            btn.destroy()
-##        return menu_status
+    for x in range(len(welcome_note)):
+        welcome_note[x].destroy()
 
+    if len(note_status) != 0:
+        for x in range(len(note_status)):
+            note_status[x].destroy()
+        
+        
+        
     button_title = ['Add Data','Scatter Graph', 'Line Graph','Reload Model']
     for button_title_content in range(len(button_title)):
 #        padding_value = padding_value + 90
-        btn = Button(command =partial(calling_process, button_title[button_title_content], called_item, menu_status), height=0, width = 9, relief=RIDGE, text=button_title[button_title_content], bd = 1)
-        btn.grid(row=0, column=button_title_content, padx = 1)
+        btn = Button(command =partial(calling_process, button_title[button_title_content], called_item, menu_status), height=0, width = 11, relief=RIDGE, text=button_title[button_title_content], bd = 3)
+        btn.grid(row=0, column=button_title_content, padx = 3)
         buttons.append(btn)
     print(menu_status)
-    # menu_status = 1
-#    return menu_status
+    
+    if called_item == 'Rice':   
+        lbl2 = Label(screen, text="This is rice Label", fg='red', bg = 'gray', font=("-weight bold", 16, "bold"), padx = 20, pady = 40)
+        lbl2.grid(columnspan = 4)
+        note_status.append(lbl2)
+        return note_status
+    if called_item == 'Potato':
+        lbl2 = Label(screen, text="This is potato Label", fg='red', bg = 'gray', font=("-weight bold", 16, "bold"), padx = 20, pady = 40)
+        lbl2.grid(columnspan = 4)
+        note_status.append(lbl2)
+        return note_status
+    if called_item == 'Apple':   
+        lbl2 = Label(screen, text="This is apple Label", fg='red', bg = 'gray', font=("-weight bold", 16, "bold"), padx = 20, pady = 40)
+        lbl2.grid(columnspan = 4)
+        note_status.append(lbl2)
+        return note_status
+    
+    
+def homepage(screen):
+    lbl1=Label(screen, text="This is Label widget", fg='red',bg = 'gray', font=("-weight bold", 16, "bold"), padx = 20, pady = 20)
+    lbl2 = Label(screen, text="This is Label widget", fg='red', bg = 'gray', font=("-weight bold", 16, "bold"), padx = 20, pady = 40)
+    lbl1.grid()
+    lbl2.grid()
+    welcome_note = [lbl1, lbl2]
+    return welcome_note
+
 
 from headers import *
 
 buttons = []
-menu_status1 = 0
-menu_status2 = 0
-model_status = 0
+note_status = []
 screen = Tk()
+screen.configure(bg = 'gray')
+welcome_note = homepage(screen)
+
+
 screen.title("Import & Export of Agricultural Product")
 screen.geometry("460x400")
 menu = Menu(screen)
@@ -86,9 +116,9 @@ screen.config(menu=menu)
 filemenu = Menu(menu) 
 menu.add_cascade(label='File', menu=filemenu) 
 submenu_imp=Menu(filemenu)
-submenu_imp.add_command(label="Rice", command = partial(design_menu, 0,"Rice"))
-submenu_imp.add_command(label="Potato", command = partial(design_menu, 0,"Potato"))
-submenu_imp.add_command(label="Apple", command = partial(design_menu, 0,"Apple"))
+submenu_imp.add_command(label="Rice", command = partial(design_menu, note_status, 0,"Rice",welcome_note))
+submenu_imp.add_command(label="Potato", command = partial(design_menu,note_status, 0,"Potato",welcome_note))
+submenu_imp.add_command(label="Apple", command = partial(design_menu,note_status, 0,"Apple",welcome_note))
 submenu_imp.add_separator()
 filemenu.add_cascade(label='Import', menu=submenu_imp, underline=0) 
 submenu_exp=Menu(filemenu)
@@ -98,8 +128,9 @@ filemenu.add_cascade(label='Export', menu=submenu_exp, underline=0)
 filemenu.add_separator() 
 filemenu.add_command(label='Exit', command=screen.destroy) 
 helpmenu = Menu(menu) 
-menu.add_cascade(label='Help', menu=helpmenu) 
-helpmenu.add_command(label='About')
+menu.add_command(label='About')
+menu.add_command(label = 'Contact Us') 
+
 screen.resizable(0, 0) 
 screen.mainloop()
 

@@ -12,7 +12,6 @@ def makeform(root, fields, called_item):
       row = Frame(root)
       lab = Label(row, width=7, text=field+": ", anchor='w')
       ent = Entry(row)
-      # ent.insert(0,"0")
       row.pack(side = TOP, fill = X, padx = 5 , pady = 5)
       lab.pack(side = LEFT)
       ent.pack(side = LEFT, expand = YES, fill = X)
@@ -20,25 +19,16 @@ def makeform(root, fields, called_item):
    return entries
 
 def adding_popup(called_item):
-	# print(passed_value)
-
 	root = Tk()
 	ents = makeform(root, fields, called_item)
 	root.bind('<Return>', (lambda event, e = ents: fetch(e)))
-	b1 = Button(root, text = 'Add Data',
-	  command=(lambda e = ents: database_saving(e, called_item)))
+	b1 = Button(root, text = 'Add Data',command=(lambda e = ents: database_saving(e, called_item)))
 	b1.pack(side = LEFT, padx = 5, pady = 5)
 	b3 = Button(root, text = 'Cancel Addition', command = root.destroy)
 	b3.pack(side=RIGHT, padx=5, pady=5)
 	root.mainloop()
 
-
-
-
-
 def calling_process(passed_value, called_item, model_status):
-    
-#    model_staus = menu_status
     print(model_status)
     print(passed_value)
     if(passed_value == "Add Data"):
@@ -47,33 +37,23 @@ def calling_process(passed_value, called_item, model_status):
         model_status = model_calll(screen, called_item, model_status, passed_value)
         print(model_status)
     else:
-        model_status = model_calll(screen,
-                               called_item, model_status, passed_value)
+        model_status = model_calll(screen, called_item, model_status, passed_value)
         print(model_status)
         return model_status
-#    elif(passed_value == "Line Graph"):
-#        model_status = model_calll(screen, model_status,called_item, "Line Graph")
-#        return model_status
+
 def design_menu(note_status, menu_status, called_item,welcome_note):
     global screen
     print(called_item)
-    for x in range(len(welcome_note)):
-        welcome_note[x].destroy()
-
+    welcome_note.destroy()
     if len(note_status) != 0:
         for x in range(len(note_status)):
-            note_status[x].destroy()
-        
-        
-        
+            note_status[x].destroy()        
     button_title = ['Add Data','Scatter Graph', 'Line Graph','Reload Model']
     for button_title_content in range(len(button_title)):
-#        padding_value = padding_value + 90
         btn = Button(command =partial(calling_process, button_title[button_title_content], called_item, menu_status), height=0, width = 11, relief=RIDGE, text=button_title[button_title_content], bd = 3)
         btn.grid(row=0, column=button_title_content, padx = 3)
         buttons.append(btn)
-    print(menu_status)
-    
+    print(menu_status)    
     if called_item == 'Rice':   
         lbl2 = Label(screen, text="This is rice Label", fg='red', bg = 'gray', font=("-weight bold", 16, "bold"), padx = 20, pady = 40)
         lbl2.grid(columnspan = 4)
@@ -89,14 +69,27 @@ def design_menu(note_status, menu_status, called_item,welcome_note):
         lbl2.grid(columnspan = 4)
         note_status.append(lbl2)
         return note_status
-    
-    
+        
 def homepage(screen):
-    lbl1=Label(screen, text="This is Label widget", fg='red',bg = 'gray', font=("-weight bold", 16, "bold"), padx = 20, pady = 20)
-    lbl2 = Label(screen, text="This is Label widget", fg='red', bg = 'gray', font=("-weight bold", 16, "bold"), padx = 20, pady = 40)
-    lbl1.grid()
-    lbl2.grid()
-    welcome_note = [lbl1, lbl2]
+    canvas = Canvas(screen, width = 460, height = 400)
+    _welcome=("verdana", 32, "bold")
+    _prediction=("verdana", 28, "bold")
+    _import_export=("verdana", 36, "bold")
+    _to=("verdana", 24)
+    pic = Image.open('img.jpg')
+    pic.putalpha(80)
+    pic = pic.filter(ImageFilter.GaussianBlur(4))
+    photo = ImageTk.PhotoImage(pic.resize((460,400)))
+    canvas.create_image((0,0), image = photo, anchor = NW)
+    canvas.image = photo
+    canvas.create_text((130, 80), font=(_welcome), text = 'WELCOME', fill = 'green', anchor = 'nw')
+    canvas.create_text((200, 130), font=(_to), text = 'to', fill = 'green', anchor = 'nw')
+    canvas.create_text((20, 175), font=(_import_export), text = 'IMPORT', fill = 'green', anchor = 'nw')
+    canvas.create_text((215, 185), font=(_to), text = '&', fill = 'green', anchor = 'nw')
+    canvas.create_text((250, 175), font=(_import_export), text = 'Export', fill = 'green', anchor = 'nw')
+    canvas.create_text((30, 250), font=(_prediction), text = 'Prediction System', fill = 'green', anchor = 'nw')
+    canvas.grid()
+    welcome_note = canvas
     return welcome_note
 
 
@@ -107,8 +100,6 @@ note_status = []
 screen = Tk()
 screen.configure(bg = 'gray')
 welcome_note = homepage(screen)
-
-
 screen.title("Import & Export of Agricultural Product")
 screen.geometry("460x400")
 menu = Menu(screen)
@@ -130,7 +121,6 @@ filemenu.add_command(label='Exit', command=screen.destroy)
 helpmenu = Menu(menu) 
 menu.add_command(label='About')
 menu.add_command(label = 'Contact Us') 
-
 screen.resizable(0, 0) 
 screen.mainloop()
 

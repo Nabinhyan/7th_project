@@ -28,48 +28,61 @@ def adding_popup(called_item):
 	b3.pack(side=RIGHT, padx=5, pady=5)
 	root.mainloop()
 
-def calling_process(passed_value, called_item, model_status):
+def calling_process(passed_value, called_item, model_status, note_status):
     print(model_status)
     print(passed_value)
     if(passed_value == "Add Data"):
         adding_popup(called_item)
     elif(passed_value == "Reload Model"):
-        model_status = model_calll(screen, called_item, model_status, passed_value)
-        print(model_status)
+      if len(note_status) != 0:
+        for x in range(len(note_status)):
+          note_status[x].destroy() 
+      model_status = model_calll(screen, called_item, model_status, passed_value)
+      print(model_status)
     else:
-        model_status = model_calll(screen, called_item, model_status, passed_value)
-        print(model_status)
-        return model_status
+      if len(note_status) != 0:
+        for x in range(len(note_status)):
+          note_status[x].destroy() 
+      model_status = model_calll(screen, called_item, model_status, passed_value)
+      print(model_status)
+      return model_status
 
 def design_menu(note_status, menu_status, called_item,welcome_note):
-    global screen
     print(called_item)
     welcome_note.destroy()
     if len(note_status) != 0:
         for x in range(len(note_status)):
-            note_status[x].destroy()        
+            note_status[x].destroy() 
+
     button_title = ['Add Data','Scatter Graph', 'Line Graph','Reload Model']
     for button_title_content in range(len(button_title)):
-        btn = Button(command =partial(calling_process, button_title[button_title_content], called_item, menu_status), height=0, width = 11, relief=RIDGE, text=button_title[button_title_content], bd = 3)
+        btn = Button(command =partial(calling_process, button_title[button_title_content], called_item, menu_status, note_status), height=0, width = 11, relief=RIDGE, text=button_title[button_title_content], bd = 3)
         btn.grid(row=0, column=button_title_content, padx = 3)
         buttons.append(btn)
+    def canvas_show_information(image_to_open, text_to_show):
+      canvas = Canvas(screen, width = 460, height = 400)
+      pic = Image.open(image_to_open)
+      pic.putalpha(80)
+      pic = pic.filter(ImageFilter.GaussianBlur(3))
+      photo = ImageTk.PhotoImage(pic.resize((460,400)))
+      canvas.create_image((0,0), image = photo, anchor = NW)
+      canvas.image = photo
+      canvas.create_text((130, 80), text = text_to_show, fill = 'green', anchor = 'nw')
+      canvas.grid(columnspan = 5)
+      return canvas
+
     print(menu_status)    
     if called_item == 'Rice':   
-        lbl2 = Label(screen, text="This is rice Label", fg='red', bg = 'gray', font=("-weight bold", 16, "bold"), padx = 20, pady = 40)
-        lbl2.grid(columnspan = 4)
-        note_status.append(lbl2)
-        return note_status
-    if called_item == 'Potato':
-        lbl2 = Label(screen, text="This is potato Label", fg='red', bg = 'gray', font=("-weight bold", 16, "bold"), padx = 20, pady = 40)
-        lbl2.grid(columnspan = 4)
-        note_status.append(lbl2)
-        return note_status
-    if called_item == 'Apple':   
-        lbl2 = Label(screen, text="This is apple Label", fg='red', bg = 'gray', font=("-weight bold", 16, "bold"), padx = 20, pady = 40)
-        lbl2.grid(columnspan = 4)
-        note_status.append(lbl2)
-        return note_status
-        
+        c1 = canvas_show_information('img.jpg', "Rice_Nabin_hyanmikha")
+
+    elif called_item == 'Potato':
+        c1 = canvas_show_information('img.jpg', "Potato_Nabin_hyanmikha")
+
+    elif called_item == 'Apple':   
+        c1 = canvas_show_information('img.jpg', "Apple_Nabin_hyanmikha")
+    note_status.append(c1)
+
+    
 def homepage(screen):
     canvas = Canvas(screen, width = 460, height = 400)
     _welcome=("verdana", 32, "bold")
@@ -78,7 +91,7 @@ def homepage(screen):
     _to=("verdana", 24)
     pic = Image.open('img.jpg')
     pic.putalpha(80)
-    pic = pic.filter(ImageFilter.GaussianBlur(4))
+    pic = pic.filter(ImageFilter.GaussianBlur(3))
     photo = ImageTk.PhotoImage(pic.resize((460,400)))
     canvas.create_image((0,0), image = photo, anchor = NW)
     canvas.image = photo
@@ -92,9 +105,7 @@ def homepage(screen):
     welcome_note = canvas
     return welcome_note
 
-
 from headers import *
-
 buttons = []
 note_status = []
 screen = Tk()
@@ -123,4 +134,3 @@ menu.add_command(label='About')
 menu.add_command(label = 'Contact Us') 
 screen.resizable(0, 0) 
 screen.mainloop()
-

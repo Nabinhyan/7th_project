@@ -19,4 +19,5 @@ from statsmodels.tsa.arima_model import ARIMA
 from model_call_1 import *
 from PIL import Image, ImageDraw, ImageFilter, ImageTk
 from functools import partial
+from tkinter import messagebox
 #from statsmodels.graphics.tsaplots import plot_acf

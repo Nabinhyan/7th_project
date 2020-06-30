@@ -1,8 +1,9 @@
-fields = ('Date','Quantity')
-def database_saving(entries, called_item):
-   date = str(entries['Date'].get())
-   quantity = float(entries['Quantity'].get())
-   database(date, quantity, called_item)
+fields = ('Date : \nYYYY-MM : ','Quantity : \n(in Kg) : ')
+def database_saving(root, entries, called_item):
+   date = str(entries['Date : \nYYYY-MM : '].get())
+   quantity = float(entries['Quantity : \n(in Kg) : '].get())
+   database_status = database(root, date, quantity, called_item)
+
 
 def makeform(root, fields, called_item):
    entries = {}
@@ -10,9 +11,9 @@ def makeform(root, fields, called_item):
    root.resizable(0,0)
    for field in fields:
       row = Frame(root)
-      lab = Label(row, width=7, text=field+": ", anchor='w')
+      lab = Label(row, width=12, text=field, anchor='w')
       ent = Entry(row)
-      row.pack(side = TOP, fill = X, padx = 5 , pady = 5)
+      row.pack(side = TOP, fill = X, padx = 3 , pady = 5)
       lab.pack(side = LEFT)
       ent.pack(side = LEFT, expand = YES, fill = X)
       entries[field] = ent
@@ -22,11 +23,12 @@ def adding_popup(called_item):
 	root = Tk()
 	ents = makeform(root, fields, called_item)
 	root.bind('<Return>', (lambda event, e = ents: fetch(e)))
-	b1 = Button(root, text = 'Add Data',command=(lambda e = ents: database_saving(e, called_item)))
+	b1 = Button(root, text = 'Add Data',command=(lambda e = ents: database_saving(root, e, called_item)))
 	b1.pack(side = LEFT, padx = 5, pady = 5)
 	b3 = Button(root, text = 'Cancel Addition', command = root.destroy)
 	b3.pack(side=RIGHT, padx=5, pady=5)
 	root.mainloop()
+
 
 def calling_process(passed_value, called_item, model_status, note_status):
     print(model_status)
@@ -124,7 +126,7 @@ submenu_imp.add_command(label="Apple", command = partial(design_menu,note_status
 submenu_imp.add_separator()
 filemenu.add_cascade(label='Import', menu=submenu_imp, underline=0) 
 submenu_exp=Menu(filemenu)
-submenu_exp.add_command(label="Alaichi")
+submenu_exp.add_command(label="Tea", command = partial(design_menu, note_status, 0, "Tea", welcome_note))
 submenu_exp.add_separator()
 filemenu.add_cascade(label='Export', menu=submenu_exp, underline=0) 
 filemenu.add_separator() 

@@ -11,34 +11,36 @@ import matplotlib.pyplot as plt
 from matplotlib.backends.backend_tkagg import (
     FigureCanvasTkAgg, NavigationToolbar2Tk)
 from functools import partial
+import pymysql
 global screen
 global canvas
 
 
 def model_calll(window, called_item, model_status, passed_value):
-    global called_csv, process_to_do, calling_status, graph_to_print, title_print_first_word, p, d, q
+    global read_data, process_to_do, calling_status, graph_to_print, title_print_first_word, p, d, q
+    db = pymysql.connect("localhost","root","","7th_project" )
     if called_item == "Rice":
-        called_csv = "rice.csv"
+        read_data = pd.read_sql("SELECT * FROM rice", db, index_col = 'Month', parse_dates = [0])
         title_print_first_word = "Import"
         p = 21
         d = 1
         q = 4
     elif called_item == "Potato":
-        called_csv = "potato.csv"
+        read_data = pd.read_sql("SELECT * FROM potato", db, index_col = 'Month', parse_dates = [0])
         title_print_first_word = "Import"
         p = 21
         d = 1
         q = 4
     elif called_item == "Apple":
-        called_csv = "apple.csv"
+        read_data = pd.read_sql("SELECT * FROM apple", db, index_col = 'Month', parse_dates = [0])
         title_print_first_word = "Import"
         p = 7
         d = 1
         q = 1
 
     elif called_item == "Tea":
-        called_csv = "export/Tea.csv"
-        title_print_first_word = "Import"
+        read_data = pd.read_sql("SELECT * FROM tea", db, index_col = 'Month', parse_dates = [0])
+        title_print_first_word = "Export"
         p = 13
         d = 1
         q = 3
@@ -46,10 +48,9 @@ def model_calll(window, called_item, model_status, passed_value):
     graph_type = passed_value
 #    print(called_item, model_status, passed_value, graph_type)
 
-    def parser(x):
-        return datetime.strptime(x, '%Y-%m')
-    data = pd.read_csv("../dataset/"+called_csv, index_col=0,
-                       parse_dates=[0], date_parser=parser)
+    data= read_data.reset_index()
+    data['Month'] = pd.to_datetime(data["Month"])
+    data.set_index("Month", inplace = True)
     training_data = data[:round(len(data)*0.85)]
     test_data = data[round(len(data)*0.85):]
     len_training = len(training_data)

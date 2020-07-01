@@ -2,7 +2,7 @@ fields = ('Date : \nYYYY-MM : ','Quantity : \n(in Kg) : ')
 def database_saving(root, entries, called_item):
    date = str(entries['Date : \nYYYY-MM : '].get())
    quantity = float(entries['Quantity : \n(in Kg) : '].get())
-   database_status = database(root, date, quantity, called_item)
+   database(root, date, quantity, called_item)
 
 
 def makeform(root, fields, called_item):

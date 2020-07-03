@@ -15,8 +15,8 @@ import pymysql
 global screen
 global canvas
 
-
-def model_calll(window, called_item, model_status, passed_value):
+from time import sleep
+def model_calll(window, called_item, model_status, passed_value, graph_status):
     global read_data, process_to_do, calling_status, graph_to_print, title_print_first_word, p, d, q
     db = pymysql.connect("localhost","root","","7th_project" )
     if called_item == "Rice":
@@ -46,7 +46,6 @@ def model_calll(window, called_item, model_status, passed_value):
         q = 3
     calling_status = model_status
     graph_type = passed_value
-#    print(called_item, model_status, passed_value, graph_type)
 
     data= read_data.reset_index()
     data['Month'] = pd.to_datetime(data["Month"])
@@ -102,10 +101,11 @@ def model_calll(window, called_item, model_status, passed_value):
         # specify the window as master
         canvas = FigureCanvasTkAgg(fig, master=window)
         canvas.draw()
-        canvas.get_tk_widget().grid(row=1, column=0, columnspan=4,
-                                    padx=7, pady=5, ipadx=20)
+        canvas.get_tk_widget().grid(row=30, column=5, columnspan=4,
+                                    padx=0, pady=0, ipadx = 27, ipady = 30)
+        
         called_status = 1
-        return called_status
+        return called_status, canvas
 
 
 
@@ -129,8 +129,10 @@ def model_calll(window, called_item, model_status, passed_value):
             sum((results_ar.fittedvalues-datasetlogdiffshifting["Quantity"])**2))
         print('RSS: %.4f' % rss)
         results_ar.save("../trained_model/"+called_item+".pkl")
-        model_status = graph_print(calling_status, graph_type, training_data, test_data, len_training)
-        return model_status
+        model_status, canvas= graph_print(calling_status, graph_type, training_data, test_data, len_training)
+        graph_staus.append("1")
+        return model_status, graph_staus
     else:
-        model_status = graph_print(calling_status, graph_type,training_data, test_data, len_training)
-        return model_status
+        model_status, canvas= graph_print(calling_status, graph_type,training_data, test_data, len_training)
+        graph_status.append(canvas)
+        return model_status, graph_status

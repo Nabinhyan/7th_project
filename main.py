@@ -43,17 +43,32 @@ def calling_process(button_title, called_item, menu_status, graph_status):
     return model_status
 
 def clearing_graph(graph_status):
-  len_of_graph_staus = len(graph_status)
-  for x in range(0,len_of_graph_staus):
+  for x in range(len(graph_status)):
     graph_status[x].get_tk_widget().grid_forget()
-  graph_status.clear()
+  graph_status = []
+
+def canvas_show_information(image_to_open, text_to_show):
+  pic = Image.open(image_to_open)
+  pic.putalpha(80)
+  pic = pic.filter(ImageFilter.GaussianBlur(2))
+  pic = ImageTk.PhotoImage(pic.resize((460,400)))
+  canvas.create_image((0,28), image = pic, anchor = NW)
+  canvas.image = pic
+  text_id = canvas.create_text((1, 38),font = ("verdana", 11, "bold"), text = text_to_show, fill = 'green', anchor = 'nw')
+  coords = canvas.bbox(text_id)
+  xOffset = (460 / 2) - ((coords[2] - coords[0]) / 2)
+  canvas.move(text_id, xOffset, 0)
+  canvas.grid(columnspan = 4)
+  return canvas
+
+def clearing_canvas(canvas):
+  if (len(graph_status) != 0):
+    clearing_graph(graph_status)
+  canvas.delete("all")  
 
 def design_menu(canvas, graph_status, menu_status, called_item):
   global  canvass
-  if (len(graph_status) != 0):
-    clearing_graph(graph_status)
-
-  canvas.delete("all")
+  clearing_canvas(canvas)
   x_axis = 57
   y_axis = 13
   button_title = ['Add Data', 'Scatter Graph', 'Line Graph', 'Reload Model']
@@ -62,41 +77,24 @@ def design_menu(canvas, graph_status, menu_status, called_item):
     btn.grid(row = 0, column = button_title_content, padx = 3)
     canvas1 = canvas.create_window(x_axis , y_axis, window = btn)
     x_axis += 115
-    button.append(btn)
-
-  def canvas_show_information(image_to_open, text_to_show):
-    pic = Image.open(image_to_open)
-    pic.putalpha(80)
-    pic = pic.filter(ImageFilter.GaussianBlur(3))
-    pic = ImageTk.PhotoImage(pic.resize((460,400)))
-    canvas.create_image((0,30), image = pic, anchor = NW)
-    canvas.image = pic
-    canvas.create_text((130, 80), text = text_to_show, fill = 'green', anchor = 'nw')
-    canvas.grid(columnspan = 4)
-    return canvas
-   
+    button.append(btn) 
   if called_item == 'Rice':   
     screen.title("Prediction of Rice Import")
-    c1 = canvas_show_information('img.jpg', "Rice_Nabin_hyanmikha")
+    c1 = canvas_show_information('imgs/imp_rice.jpg', rice)
   if called_item == 'Potato':   
     screen.title("Prediction of Potato Import")
-    c1 = canvas_show_information('img.jpg', "Potato_Nabin_hyanmikha")
+    c1 = canvas_show_information('imgs/imp_potato.jpg', potato)
   if called_item == 'Apple':   
     screen.title("Prediction of Apple Import")
-    c1 = canvas_show_information('img.jpg', "Apple_Nabin_hyanmikha")
+    c1 = canvas_show_information('imgs/imp_apple.jpg', apple)
 
-
-
-
-def homepage(graph_status):
-  if (len(graph_status) != 0):
-    clearing_graph(graph_status)
-  canvas.delete('all')
+def homepage(canvas, graph_status):
+  clearing_canvas(canvas)
   _welcome=("verdana", 32, "bold")
   _prediction=("verdana", 28, "bold")
   _import_export=("verdana", 36, "bold")
   _to=("verdana", 24)
-  pic = Image.open('img.jpg')
+  pic = Image.open('imgs/img.jpg')
   pic.putalpha(80)
   pic = pic.filter(ImageFilter.GaussianBlur(3))
   photo = ImageTk.PhotoImage(pic.resize((460,430)))
@@ -111,21 +109,43 @@ def homepage(graph_status):
   canvas.grid()
   return canvas
 
+def about_us(canvas, graph_status):
+  clearing_canvas(canvas)
+  pic = Image.open('imgs/aboutus.jpg')
+  pic.putalpha(80)
+  pic = pic.filter(ImageFilter.GaussianBlur(2))
+  pic = ImageTk.PhotoImage(pic.resize((460,400)))
+  canvas.create_image((0,0), image = pic, anchor = NW)
+  canvas.image = pic
+  text_id = canvas.create_text((5, 9),font = ("verdana", 11, "bold"), text = about, fill = 'blue', anchor = 'nw')
+  coords = canvas.bbox(text_id)
+  xOffset = (460 / 2) - ((coords[2] - coords[0]) / 2)
+  canvas.move(text_id, xOffset, 0)
+  canvas.grid(columnspan = 4)
+
+
 from headers import *
+import os
+
 button = []
 graph_status = []
 global canvas, canvass
 screen = Tk()
 screen.configure(bg = 'gray')
+if 'nt' == os.name:
+  screen.wm_iconbitmap('imgs/logo.ico')
+else: 
+  screen.wm_iconbitmap('@imgs/logo.xbm')
+  
+screen.title('Import Export Prediction System')
 canvas = Canvas(screen, width = 460, height = 400)
-
-canvas = homepage(graph_status)
+canvas = homepage(canvas, graph_status)
 
 menu = Menu(screen)
 screen.config(menu=menu) 
 filemenu = Menu(menu) 
 menu.add_cascade(label='File', menu=filemenu)
-filemenu.add_command(label = 'Home', command = partial(homepage, graph_status)) 
+filemenu.add_command(label = 'Home', command = partial(homepage, canvas, graph_status)) 
 filemenu.add_separator()
 submenu_imp=Menu(filemenu)
 submenu_imp.add_command(label="Rice", command = partial(design_menu, canvas, graph_status, 0,"Rice"))
@@ -140,7 +160,6 @@ filemenu.add_cascade(label='Export', menu=submenu_exp, underline=0)
 filemenu.add_separator() 
 filemenu.add_command(label='Exit', command=screen.destroy) 
 helpmenu = Menu(menu) 
-menu.add_command(label='About')
-menu.add_command(label = 'Contact Us') 
+menu.add_command(label='About Us', command = partial(about_us, canvas, graph_status))
 screen.resizable(0, 0) 
 screen.mainloop()

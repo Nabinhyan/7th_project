@@ -81,12 +81,21 @@ def design_menu(canvas, graph_status, menu_status, called_item):
   if called_item == 'Rice':   
     screen.title("Prediction of Rice Import")
     c1 = canvas_show_information('imgs/imp_rice.jpg', rice)
-  if called_item == 'Potato':   
+  elif called_item == 'Potato':   
     screen.title("Prediction of Potato Import")
     c1 = canvas_show_information('imgs/imp_potato.jpg', potato)
-  if called_item == 'Apple':   
+  elif called_item == 'Apple':   
     screen.title("Prediction of Apple Import")
     c1 = canvas_show_information('imgs/imp_apple.jpg', apple)
+  elif called_item == 'Tea':   
+    screen.title("Prediction of Tea Export")
+    c1 = canvas_show_information('imgs/exp_tea.jpg', tea)
+  elif called_item == 'Alainchi':   
+    screen.title("Prediction of Alainchi Export")
+    c1 = canvas_show_information('imgs/exp_alainchi.jpg', alainchi)
+  elif called_item == 'Herbs':   
+    screen.title("Prediction of Herbs Export")
+    c1 = canvas_show_information('imgs/exp_herbs.jpg', herbs)
 
 def homepage(canvas, graph_status):
   clearing_canvas(canvas)
@@ -126,7 +135,6 @@ def about_us(canvas, graph_status):
 
 from headers import *
 import os
-
 button = []
 graph_status = []
 global canvas, canvass
@@ -154,12 +162,14 @@ submenu_imp.add_command(label="Apple", command = partial(design_menu, canvas, gr
 submenu_imp.add_separator()
 filemenu.add_cascade(label='Import', menu=submenu_imp, underline=0) 
 submenu_exp=Menu(filemenu)
-submenu_exp.add_command(label="Tea")
+submenu_exp.add_command(label="Tea", command = partial(design_menu, canvas, graph_status, 0,"Tea"))
+submenu_exp.add_command(label="Herbs", command = partial(design_menu, canvas, graph_status, 0,"Herbs"))
+submenu_exp.add_command(label="Alainchi", command = partial(design_menu, canvas, graph_status, 0,"Alainchi"))
 submenu_exp.add_separator()
 filemenu.add_cascade(label='Export', menu=submenu_exp, underline=0) 
 filemenu.add_separator() 
 filemenu.add_command(label='Exit', command=screen.destroy) 
 helpmenu = Menu(menu) 
-menu.add_command(label='About Us', command = partial(about_us, canvas, graph_status))
+menu.add_command(label='About', command = partial(about_us, canvas, graph_status))
 screen.resizable(0, 0) 
 screen.mainloop()

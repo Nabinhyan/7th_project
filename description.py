@@ -99,3 +99,79 @@ Apples are  cultivated in 48 districts, but five
 districts   —  Jumla,  Humla,  Mugu,  Dolpa  and
 Kalikot — contribute  41.2 percent  of the total
 production."""
+
+tea = """             ---Export of Tea---              
+
+
+Nepal  has  a  long  history of Tea cultivation,
+initiated  with the  establishment  of  Ilam Tea
+Estate  in the Hills of Ilam  District. Orthodox
+and  CTC  are  major  varieties  of tea grown in
+Nepal. Illam  tea  which is famous as high grown
+orthodox    tea    is   popular  among  the  tea
+connoisseur.  
+
+Nepal’s total tea  production  amounts to 23,821
+MT  annually.  Tea  is primarily  grown  in five
+districts  in Eastern Nepal namely, Jhapa, Ilam,
+Panchthar, Dhankuta, and  Terathum.  Jhapa is by
+far  the largest  producer of tea accounting for
+more than  75 percent  of  Nepal’s  tea produced
+followed by Ilam  with produces around one-sixth
+of  Nepal’s  total  tea  production.  The  major
+export  market  of  Nepalese  tea  are  Germany,
+Japan,   France,   Italy,   Hong   Kong,   U.K.,
+Switzerland,   Australia,  Netherlands,  U.S.A.,
+The medicated and  herbal tea of Nepal have been
+very popular in these markets."""
+
+
+alainchi = """             ---Export of Alainchi---              
+
+ Nepal  has  a  long  history  of Tea cultivation,
+ Nepali large cardamom  also known as 'black gold'
+ or 'black cardamom' and  locally  called elaichi.
+ Large cardamoms are spindle-shaped  pods that are
+ light  to   dark   brown  in  color.   It  is  an
+ evergreen, perennial  and herbaceous  plant grown
+ on north-facing  hill slopes. This type  of large
+ cardamom is grown mainly in the Himalayan  region
+ of  Nepal,  Sikkim   and   Bhutan.  Nepali  black
+ cardamom has a distinct  flavor  profile due to a
+ specific method  of postharvest  drying in Bhatti
+ ovens. 
+ Cardamoms produced in Nepal are  entirely organic
+ and provide income to  mostly low-income families
+ in  rural  Nepal.  Large  cardamom  is the second
+ largest  export  commodity  and the  largest agro
+ based export  of Nepal. Large  cardamom  is grown
+ predominantly   in    Eastern  Nepal  where  four
+ districts    Taplejung,   Panchthar,   Ilam,  and
+ Sankhuwasabha  account for  more  than 80 precent
+ of  national  production.  India  is  the largest
+ importer of large cardamom from  Nepal."""
+
+
+herbs = """             ---Export of Herbs---              
+
+Nepal,  a  small  country  in  middle of the great
+Himalayan  range,   is  famous   for  her  natural
+medicinal  plants and  herbs. Due to many climatic
+conditions  from  east to west and north to south,
+we  can  find almost all herbs. Nepalese herbs are
+exported to third  countries  in large quantities.
+We  can provide you  Nepalese herbs  as  per  your
+requirements.
+
+Nepali  herbs   and  herbal  products,  especially
+herbal  tea, ayurvedic  medicine and aromatic oil,
+are  now  exported   to  foreign  countries,  with
+European  states being the major importers. Nepali
+herbs  and  herbal  products are in high demand in
+the  international  market. Of around  100 species
+of herbs  produced in  the country,  30 are export
+quality.  Nepal  is  famous  in  the world for its
+aromatic oil. The Karnali region produces the most
+high-value  herbs, followed  by Mid-Hill and Terai
+regions. The  Terai alone  is capable of producing
+20 varieties of aromatic oil."""

@@ -1,7 +1,7 @@
 cycler==0.10.0
 kiwisolver==1.2.0
 matplotlib==3.2.2
-numpy==1.19.0
+numpy==1.22.0
 pandas==1.0.5
 partial==1.0
 patsy==0.5.1
@@ -20,7 +20,7 @@ kiwisolver==1.2.0
 matplotlib==3.2.2
 mysql-connector==2.2.9
 mysqlclient==1.4.6
-numpy==1.19.0
+numpy==1.22.0
 pandas==1.0.5
 partial==1.0
 patsy==0.5.1
@@ -50,7 +50,7 @@ kiwisolver==1.2.0
 matplotlib==3.2.2
 mysql-connector==2.2.9
 mysqlclient==1.4.6
-numpy==1.19.0
+numpy==1.22.0
 pandas==1.0.5
 parso==0.7.0
 partial==1.0
